@@ -11,10 +11,13 @@
     "url": "git+https://github.com/lameofpro/hackathonTSP2022.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Technical Team",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lameofpro/hackathonTSP2022/issues"
   },
-  "homepage": "https://github.com/lameofpro/hackathonTSP2022#readme"
+  "homepage": "https://github.com/lameofpro/hackathonTSP2022#readme",
+  "dependencies": {
+    "telegraf": "^3.32.0"
+  }
 }

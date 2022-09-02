@@ -1,6 +1,15 @@
 const {readFileSync, promises: fsPromises} = require('fs');
 
 
-let a = readFileSync('TOKEN.json', 'utf-8');
-a = JSON.parse(a.toString());
-console.log(a.token);
+let token = readFileSync('TOKEN.json', 'utf-8');
+token = JSON.parse(token.toString());
+
+const Telegraf = require('telegraf');
+const bot = new Telegraf(token.token);
+
+bot.start((ctx) => {
+    ctx.reply("Welcome to D-Database");
+});
+
+
+bot.launch();
