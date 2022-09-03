@@ -2,14 +2,18 @@ const {readFileSync, promises: fsPromises} = require('fs');
 const { nextTick } = require('process');
 
 
-let token = readFileSync('TOKEN.json', 'utf-8');
-token = JSON.parse(token.toString());
+let token1 = readFileSync('TOKEN.json', 'utf-8');
+token = JSON.parse(token1.toString());
 
 const Telegraf = require('telegraf');
 const bot = new Telegraf(token.token);
 
-const users = new Map([ ["visal_saosuo", {confirmed: 0, fname:"វិសាល", lname:"សៅសួរ", age:20, location:"ខេត្តកំពុង់ឆ្នាំង"}], 
+var users = new Map([ ["visal_saosuo", {confirmed: 0, fname:"វិសាល", lname:"សៅសួរ", age:20, location:"ខេត្តកំពុង់ឆ្នាំង"}], 
                         ["samnang_nounsinoeun", {confirmed: 0, fname:"Samnang", lname:"Nounsinoeun", age:20, location:"Takeo"}]]);
+// Read from file
+let loanInfo = readFileSync('loanData.json', 'utf-8');
+loanInfo = JSON.parse(loanInfo.toString());
+
 
 // bot.use((ctx) =>{
 //     console.log(users.get("@visalSaosuo"));
@@ -35,6 +39,8 @@ bot.start((ctx) => {
             }
         });
     }
+
+    console.log(loanInfo);
 });
 
 bot.action("userInfoConfirm", ctx => {
@@ -51,8 +57,13 @@ bot.action("userInforNotConfirm", (ctx) => {
         users.get(ctx.chat.username).confirmed = -1;
 
     ctx.answerCbQuery("ទទួលបាន");
-
 })
+
+bot.command("/reciept", (ctx) => {
+    bot.telegram.sendPhoto(ctx.chat.id, "https://drive.google.com/file/d/1nWkNwfG1RNF1Ty0V3mdEYq398Cd_Tah-/view?usp=sharing").then((m) =>{
+        bot.telegram.pinChatMessage(ctx.chat.id, m.message_id);
+    });
+});
 
 
 bot.launch();
