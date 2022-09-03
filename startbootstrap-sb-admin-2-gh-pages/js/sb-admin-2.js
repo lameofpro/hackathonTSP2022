@@ -53,4 +53,10 @@
     e.preventDefault();
   });
 
+  //date picker
+  
+
 })(jQuery); // End of use strict
+$(function(){
+  $('#datepicker').datepicker();
+});
