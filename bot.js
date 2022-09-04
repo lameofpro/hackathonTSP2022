@@ -60,10 +60,55 @@ bot.action("userInforNotConfirm", (ctx) => {
 })
 
 bot.command("/reciept", (ctx) => {
-    bot.telegram.sendPhoto(ctx.chat.id, "https://drive.google.com/file/d/1nWkNwfG1RNF1Ty0V3mdEYq398Cd_Tah-/view?usp=sharing").then((m) =>{
+    var reciept = "https://drive.google.com/file/d/1nWkNwfG1RNF1Ty0V3mdEYq398Cd_Tah-/view?usp=sharing";
+    bot.telegram.sendPhoto(ctx.chat.id, reciept, {
+        caption:"តើព័ត៌មាននេះត្រឹមត្រូវដែលឬទេ?",
+        reply_markup:{
+            inline_keyboard:[
+                [{text:"ត្រឹមត្រូវ", callback_data:"recieptC"}],
+                [{text:"មិនត្រឹមត្រូវ", callback_data:"recieptW"}]
+            ]
+        }
+    }).then((m) =>{
         bot.telegram.pinChatMessage(ctx.chat.id, m.message_id);
     });
 });
+
+bot.action("recieptC", (ctx) => {
+    ctx.answerCbQuery("ត្រឹមត្រូវ");
+})
+
+bot.action("recieptW", (ctx) => {
+    ctx.answerCbQuery("មិនត្រឹមត្រូវ");
+})
+
+bot.command("/overdue", (ctx) => {
+    ctx.reply("លោកអ្នកមិនបានបង់ប្រាក់នៅ ខែកញ្ញា ដល់អ៊ីប៊ិច។", {
+        reply_markup:{
+            inline_keyboard:[
+                [{text:"ប្រាប់អ៊ីប៊ិច", callback_data:"informPayment"}]
+            ]
+        }
+    });
+})
+
+bot.action("informPayment", (ctx) => {
+    ctx.answerCbQuery("ប្រាប់ អ៊ីប៊ិច");
+})
+
+bot.command("/paymentToDue", (ctx) => {
+    ctx.reply("លោកអ្នកនៅសល់ពេល ១២ថ្ងៃ ក្នុងការបង់ប្រាក់ដល់ អ៊ីប៊ិច។", {
+        reply_markup:{
+            inline_keyboard:[
+                [{text:"ព័ត៌មានមិនត្រឹមត្រូវ", callback_data:"paymentToDoIncorrect"}]
+            ]
+        }
+    });
+})
+
+bot.action("paymentToDoIncorrect", (ctx) => {
+    ctx.answerCbQuery("ព័ត៌មានមិនត្រឹមត្រូវ");
+})
 
 
 bot.launch();
