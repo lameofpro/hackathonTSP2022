@@ -1,12 +1,10 @@
 const {readFileSync, promises: fsPromises} = require('fs');
-const { nextTick } = require('process');
-
 
 let token1 = readFileSync('TOKEN.json', 'utf-8');
-token = JSON.parse(token1.toString());
+token1 = JSON.parse(token1.toString());
 
 const Telegraf = require('telegraf');
-const bot = new Telegraf(token.token);
+const bot = new Telegraf(token1.token);
 
 var users = new Map([ ["visal_saosuo", {confirmed: 0, fname:"វិសាល", lname:"សៅសួរ", age:20, location:"ខេត្តកំពុង់ឆ្នាំង"}], 
                         ["samnang_nounsinoeun", {confirmed: 0, fname:"Samnang", lname:"Nounsinoeun", age:20, location:"Takeo"}]]);
@@ -14,6 +12,8 @@ var users = new Map([ ["visal_saosuo", {confirmed: 0, fname:"វិសាល", l
 let loanInfo = readFileSync('loanData.json', 'utf-8');
 loanInfo = JSON.parse(loanInfo.toString());
 
+var chatID = 414137573;
+var emNotice = true;
 
 // bot.use((ctx) =>{
 //     console.log(users.get("@visalSaosuo"));
@@ -60,7 +60,8 @@ bot.action("userInforNotConfirm", (ctx) => {
 })
 
 bot.command("/reciept", (ctx) => {
-    var reciept = "https://drive.google.com/file/d/1nWkNwfG1RNF1Ty0V3mdEYq398Cd_Tah-/view?usp=sharing";
+    var reciept = "https://drive.google.com/file/d/1Pb_j7DeEi9OWes0sATmo8rer645AWSrd/view?usp=sharing";
+
     bot.telegram.sendPhoto(ctx.chat.id, reciept, {
         caption:"តើព័ត៌មាននេះត្រឹមត្រូវដែលឬទេ?",
         reply_markup:{
@@ -72,6 +73,7 @@ bot.command("/reciept", (ctx) => {
     }).then((m) =>{
         bot.telegram.pinChatMessage(ctx.chat.id, m.message_id);
     });
+    emNotice = false;
 });
 
 bot.action("recieptC", (ctx) => {
@@ -104,11 +106,19 @@ bot.command("/paymentToDue", (ctx) => {
             ]
         }
     });
+
+    // console.log(ctx.chat.id);
 })
 
 bot.action("paymentToDoIncorrect", (ctx) => {
     ctx.answerCbQuery("ព័ត៌មានមិនត្រឹមត្រូវ");
 })
 
+
+function clicked(){
+    console.log("Fuck you!");
+    emNotice = true;
+    console.log(emNotice);
+}
 
 bot.launch();
