@@ -54,9 +54,11 @@
   });
 
   //date picker
-  
+
+  //show 
+  var collapseElementList = [].slice.call(document.querySelectorAll('.collapse'))
+  var collapseList = collapseElementList.map(function (collapseEl) {
+  return new bootstrap.Collapse(collapseEl)
+});
 
 })(jQuery); // End of use strict
-$(function(){
-  $('#datepicker').datepicker();
-});
